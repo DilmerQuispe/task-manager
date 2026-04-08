@@ -1,4 +1,4 @@
-const express = require('exprees');
+const express = require('express');
 const router = express.Router();
 
 //importar controladores

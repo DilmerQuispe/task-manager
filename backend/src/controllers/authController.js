@@ -29,7 +29,7 @@ exports.login = async (req,res)=>{
             return res.status(404).json({error:'Usuario no encontrado'});
         }
         //validamos constraeña
-        const valid = await bycrapt.compare(password,user.password);
+        const valid = await bcrypt.compare(password,user.password);
         if(!valid){
             return res.status(401).json({error:'Contraseña incorrecta'});
         }

@@ -1,5 +1,5 @@
-const User = require('./models/users');
-const Task = require('./models/task');
+const User = require('./users');
+const Task = require('./task');
 
 //un usuario puede tener muchas tareas
 User.hasMany(Task);
