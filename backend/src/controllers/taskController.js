@@ -9,7 +9,7 @@ exports.getTasks = async (req,res)=>{
     res.json(tasks);
 };
 
-//crear tareas
+//creamos tareas
 exports.createTask=async(req,res)=>{
     const task = await Task.create({
         title:req.body.title,
