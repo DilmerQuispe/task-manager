@@ -60,23 +60,28 @@ function Dashboard(){
     },[token]);
 
     return(
-        <div>
-            <h2>Mis Tareas</h2>
-            {/*input para nueva tarea*/}
-            <input value={title}
-            onChange={(e)=>setTitle(e.target.value)}
-            placeholder="Nueva Tarea"
-            type="text"/>
+        <div className="min-h-screen bg-gradient-to-br from-blue-500
+        to-indigo-600 flex items-center justify-center">
+            <div className="bg-white w-full max-w-md p-6 rounded-2xl shadow-2xl">
+                <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+                    Mis Tareas
+                </h1>
+                {/*input para nueva tarea*/}
+                <input value={title}
+                onChange={(e)=>setTitle(e.target.value)}
+                placeholder="Nueva Tarea"
+                type="text"/>
 
-            {/*Boton de crear tarea*/}
-            <button onClick={createTask}>Crear</button>
+                {/*Boton de crear tarea*/}
+                <button onClick={createTask}>Crear</button>
 
-            {/*Lista de tareas*/}
-            {task.map(t=>{
-                <div key={t.id}>
-                    {t.title}
-                </div>
-            })}
+                {/*Lista de tareas*/}
+                {task.map(t=>{
+                    <div key={t.id}>
+                        {t.title}
+                    </div>
+                })}
+            </div>
         </div>
     )
 }
