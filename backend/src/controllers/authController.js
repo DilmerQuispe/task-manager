@@ -1,29 +1,30 @@
 const bcrypt = require('bcrypt');
-const {User} = require('../models');
-const generarToken = require('../utils/jwt');
+const User = require('../models/Users');
+const jwt = require('jsonwebtoken');
 
-//Registro
+//Registro de usuarios
 exports.register = async (req,res)=>{
     try{
-        const{name,email,password}=req.body;
+        const{username,email,password}=req.body;
         //encriptamos constraseña
-        const hash = await bcrypt.hash(password,10);
+        const hashPassword = await bcrypt.hash(password,10);
         //crear usuario
         const user = await User.create({
-            name,
+            username,
             email,
-            password:hash,
+            password:hashPassword,
         });
-        res.json(user);
+        res.json({message:"Usuario creado correctamente"});
     }catch(error){
-        res.status(500).json({error:error.message});
+        console.log(error);
+        res.status(500).json({error:"Error al registrar"},error.message);
     }
 };
 //Login 
 exports.login = async (req,res)=>{
     try{
         const {email,password} = req.body;
-        const user = await User.findOne({where:(email)});
+        const user = await User.findOne({where:{email}});
 
         if(!user){
             return res.status(404).json({error:'Usuario no encontrado'});
@@ -35,7 +36,11 @@ exports.login = async (req,res)=>{
         }
 
         //generar token
-        const token = generarToken(user);
+        const token = jwt.sign(
+            {id:user.id},
+            "secreto",
+            {expiresIn:'1h'}
+        );
         res.json({token});
     }catch(error){
         res.status(500).json({error:error.message});

@@ -2,8 +2,8 @@
 //Configurar express 
 
 const express = require('express');
-const helmet = require('helmet'); // seguridad 
-const cors = require('cors'); // permitir conectar 
+const helmet = require('helmet'); // seguridad proteger http
+const cors = require('cors'); // permitir conectar frontend / backend
 
 //inicializar la app 
 const app = express();

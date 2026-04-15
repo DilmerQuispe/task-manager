@@ -14,5 +14,13 @@ sequelize.authenticate()
 .then(()=>console.log('Conexion Exitosa a la base de datos'))
 .catch(err => console.error('Error de conexion a la base de datos:',err));
 
+sequelize.sync({alter:true})
+.then(()=>{
+    console.log('Base de datos sincronizada')
+})
+.catch((error)=>{
+    console.error('Error al sincronizar la base de datos',error);
+});
+
 //xportar la conexion
 module.exports = sequelize;
