@@ -18,10 +18,15 @@ function Dashboard(){
 
     //obtener tareas
     const getTasks = async () => {
-        const res=await axios.get("http://localhost:3000/api/tasks",{
-            headers:{Authorization: token}
-        });
-        setTasks(res.data);
+        try {
+            const res=await axios.get("http://localhost:3000/api/tasks",{
+                headers:{Authorization: token}
+            });
+            setTasks(res.data);
+            getTasks();
+        } catch (error) {
+            console.error("Error al obtener tareas:", error);
+        }
     };
 
     useEffect(() => {
@@ -30,31 +35,54 @@ function Dashboard(){
     
     //Crear tareas
     const createTask = async ()=> {
-        await axios.post("http://localhost:3000/api/tasks",
-            {title, description},
-            {headers:{Authorization:token}}
-        );
-        setTitle("");
-        setDescription("");
-        getTasks();
+        try {
+            await axios.post("http://localhost:3000/api/tasks",
+                {title, description},
+                {headers:{Authorization:token}}
+            );
+            setTitle("");
+            setDescription("");
+            getTasks();
+        } catch (error) {
+            console.error("Error al crear tarea:", error);
+        }
     };
 
     const deleteTask = async (id) => {
-        await axios.delete(`http://localhost:3000/api/tasks/${id}`, {
-            headers: { Authorization: token }
-        });
-        getTasks(); // refresca la lista
+        try {
+            await axios.delete(`http://localhost:3000/api/tasks/${id}`, {
+                headers: { Authorization: token }
+            });
+            getTasks(); // refresca la lista
+        } catch (error) {
+            console.error("Error al eliminar tarea:", error);
+        }
     };
 
-    const updateTask = async (id, updatedData) => {
-        await axios.put(
-            `http://localhost:3000/api/tasks/${id}`,
-            updatedData,
-            {
+    const deleteTaskLogic = async (id) => {
+        try {
+            await axios.put(`http://localhost:3000/api/tasks/Logic/${id}`, {}, {
                 headers: { Authorization: token }
-            }
-        );
-        getTasks(); // refrescar lista
+            });
+            getTasks(); // refresca la lista
+        } catch (error) {
+            console.error("Error al eliminar tarea logicamente:", error);
+        }
+    }
+
+    const updateTask = async (id, updatedData) => {
+        try {
+            await axios.put(
+                `http://localhost:3000/api/tasks/${id}`,
+                updatedData,
+                {
+                    headers: { Authorization: token }
+                }
+            );
+            getTasks(); // refrescar lista
+        } catch (error) {
+            console.error("Error al actualizar tarea:", error);
+        }
     };
 
     return(
@@ -107,7 +135,7 @@ function Dashboard(){
                         </button>
 
                         <button
-                            onClick={() => deleteTask(t.id)}
+                            onClick={() => deleteTaskLogic(t.id)}
                             className="flex items-center gap-1 text-red-500 hover:text-red-700 text-sm"
                         >
                             <Trash2 size={16} />

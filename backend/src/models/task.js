@@ -20,6 +20,11 @@ const Task = sequelize.define('Task',{
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
+    },
+    activa:{
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
     }
 });
 module.exports = Task;

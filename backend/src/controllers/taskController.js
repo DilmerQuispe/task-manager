@@ -4,7 +4,7 @@ const { Task } = require('../models');
 //obtener todas las tareas
 exports.getTasks = async (req,res)=>{
     const tasks = await Task.findAll({
-    where:{UserId:req.user.id} //solo tareas del usuario logueado
+    where:{UserId:req.user.id,activa:true} //solo tareas del usuario logueado
     });
     res.json(tasks);
 };
@@ -36,3 +36,12 @@ exports.deleteTask=async(req,res)=>{
     });
     res.json({mensaje:'Tarea eliminada'});
 };
+
+//eliminar tareas de forma logica
+exports.deleteTaskLogic=async(req,res)=>{
+    const {id}=req.params;
+    await Task.update({activa:false},{
+        where:{id,UserId:req.user.id} 
+    });
+    res.json({mensaje:'Tarea eliminada logicamente'});
+}
